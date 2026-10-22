@@ -254,26 +254,20 @@
     if (!email) { note.textContent = 'Add your email first.'; return; }
     suBtn.disabled = true;
     note.textContent = 'Joining…';
-    fetch('https://formsubmit.co/ajax/abhishekyeruva90@gmail.com', {
+    fetch('https://script.google.com/macros/s/AKfycbwTreUhS_3uK1Z-vzx-Y8ay7unm2kbhrEPm6c9Ij5HG97bFYi5UyOUmHwYMSfKFL14/exec', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
         email: email,
-        agency_size: size || 'not given',
-        friction_score: totalScore === null ? 'not scored' : totalScore + '/20',
-        _subject: 'Friction Audit signup — Work With Bots',
-        _template: 'table'
-      })
-    }).then(function(res){
-      if (res.ok) {
-        note.textContent = 'You\u2019re in. Watch your inbox for the next teardown.';
-        suBtn.textContent = 'Joined ✓';
-      } else {
-        note.textContent = 'That didn\u2019t go through — try again, or DM "AUDIT" to @followupbots on Instagram.';
-        suBtn.disabled = false;
-      }
+        score: totalScore === null ? '' : String(totalScore),
+        agency_size: size || 'not given'
+      }).toString()
+    }).then(function(){
+      note.textContent = 'You\u2019re in. Watch your inbox for the next teardown.';
+      suBtn.textContent = 'Joined \u2713';
     }).catch(function(){
-      note.textContent = 'That didn\u2019t go through — try again, or DM "AUDIT" to @followupbots on Instagram.';
+      note.textContent = 'That didn\u2019t go through \u2014 try again, or DM "AUDIT" to @followupbots on Instagram.';
       suBtn.disabled = false;
     });
   });
